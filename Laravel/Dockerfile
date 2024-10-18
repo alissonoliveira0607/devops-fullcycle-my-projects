@@ -19,5 +19,9 @@ RUN php composer.phar create-project --prefer-dist laravel/laravel devops
 
 #USER www-data
 
-ENTRYPOINT [ "php", "devops/artisan", "serve", "--host=0.0.0.0", "--port=8000" ]
+# O Entrypoint é imutavel
+ENTRYPOINT [ "php", "devops/artisan", "serve" ]
+
+# O CMD pode receber parametros e argumento com isso a imagem irá possuir um dinamicidade maior
+CMD [ "--host=0.0.0.0", "--port=8000" ]
 
