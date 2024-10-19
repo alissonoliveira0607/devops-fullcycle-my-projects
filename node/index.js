@@ -3,9 +3,9 @@ const app = express()
 const port = 3001
 const config = {
     host: 'db',
-    user: 'root',
-    password: 'root',
-    database:'nodedb'
+    user: 'devops',
+    password: 'devops',
+    database:'devops'
 };
 const mysql = require('mysql')
 const connection = mysql.createConnection(config)
