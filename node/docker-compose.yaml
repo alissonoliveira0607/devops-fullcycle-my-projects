@@ -12,11 +12,11 @@ services:
       - ./data:/usr/src/app
     networks:
       - devops
-
-
+    depends_on:
+      - db
   db:
    image: mysql:latest
-   command: --innodb-use-native-aio=0
+   #command: --innodb-use-native-aio=0
    container_name: db
    environment:
      # Configuração das variáveis de ambiente do MySQL
@@ -41,3 +41,4 @@ networks:
 
 volumes:
   mysql-data:
+  data:
