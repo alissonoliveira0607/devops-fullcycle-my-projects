@@ -5,7 +5,8 @@ const config = {
     host: 'db',
     user: 'devops',
     password: 'devops',
-    database: 'devops'
+    database: 'devops',
+    port: port
 }
 
 const mysql = require('mysql')
