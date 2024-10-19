@@ -1,0 +1,48 @@
+# Criando uma imagem mais leve do laravel baseado em alpine
+FROM php:7.4-cli AS builder
+
+WORKDIR /var/www 
+
+EXPOSE 8000
+
+RUN apt update -y && \
+    apt install -y curl jq telnet wget git libzip-dev && \
+    docker-php-ext-install zip
+
+
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"  && \
+php -r "if (hash_file('sha384', 'composer-setup.php') === 'dac665fdc30fdd8ec78b38b9800061b4150413ff2e3b6f88543c636f7cd84f6db9189d43a81e5503cda447da73c7e5b6') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
+php composer-setup.php --version=2.3.10 && \
+php -r "unlink('composer-setup.php');"
+
+# Comando
+RUN php composer.phar create-project --prefer-dist laravel/laravel laravel
+
+# O Entrypoint é imutavel
+# ENTRYPOINT [ "php", "laravel/artisan", "serve" ]
+
+# O CMD pode receber parametros e argumento com isso a imagem irá possuir um dinamicidade maior
+# CMD [ "--host=0.0.0.0", "--port=8000" ]
+
+
+FROM php:7.4-fpm-alpine
+
+WORKDIR /var/www
+
+RUN rm -rf /var/www/html
+
+# Importando o builder do primeiro stage para o segundo stage 
+# Copia o diretório laravel construido no 01 stage para o diretório de trabalho do alpine
+COPY --from=builder /var/www/laravel .  
+
+RUN chown -R www-data:www-data /var/www
+
+# Criando um link simbólico
+RUN ln -s public html
+
+USER www-data
+
+# Expondo a porta do fpm
+EXPOSE 9000
+
+CMD ["php-fpm"]
