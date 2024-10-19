@@ -1,25 +1,24 @@
 const express = require('express')
 const app = express()
-const port = 3000
+const port = 3001
 const config = {
     host: 'db',
-    user: 'devops',
-    password: 'devops',
-    database: 'devops',
-    port: port
-}
-
+    user: 'root',
+    password: 'root',
+    database:'nodedb'
+};
 const mysql = require('mysql')
 const connection = mysql.createConnection(config)
 
-const sql = `INSERT INTO people(name) values('Teste')`
+const sql = `INSERT INTO people(name) values('Wesley')`
 connection.query(sql)
 connection.end()
 
-app.get('/', (req, res) => {
-    res.send('Hello World!')
+
+app.get('/', (req,res) => {
+    res.send('<h1>Full Cycle</h1>')
 })
 
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
+app.listen(port, ()=> {
+    console.log('Rodando na porta ' + port)
 })
