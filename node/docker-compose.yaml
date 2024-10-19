@@ -7,38 +7,43 @@ services:
       dockerfile: Dockerfile.prod
     container_name: app
     ports:
-      - 3001:3001
-    volumes: 
-      - ./data:/usr/src/app
+      - 3000:3000
     networks:
       - devops
     depends_on:
       - db
+
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:3000/health"]  # Substitua "/health" pelo endpoint apropriado para verificar a saúde da sua aplicação
+    #   interval: 30s    # Verifica a cada 30 segundos
+    #   timeout: 10s     # Tempo limite para a verificação
+    #   retries: 5       # Tenta 5 vezes antes de considerar que o serviço está inativo
+
   db:
-   image: mysql:latest
-   #command: --innodb-use-native-aio=0
-   container_name: db
-   environment:
-     # Configuração das variáveis de ambiente do MySQL
-    - MYSQL_ROOT_PASSWORD=devops
-    - MYSQL_DATABASE=devops
-    - MYSQL_USER=devops
-    - MYSQL_PASSWORD=devops
-    - MYSQL_ROOT_HOST=%   # Permite conexões remotas ao MySQL
-    - MYSQL_SSL_CA=""
-    - MYSQL_SSL_CERT=""
-    - MYSQL_SSL_KEY=""
-   ports:
-     - 3306:3306
-   volumes:
-     - ./mysql-data:/var/lib/mysql
-   networks:
-     - devops
-  
+    image: mysql:5.7
+    container_name: db
+    command: --innodb-use-native-aio=0
+    environment:
+      - MYSQL_ROOT_PASSWORD=devops
+      - MYSQL_DATABASE=devops
+      - MYSQL_USER=devops
+      - MYSQL_PASSWORD=devops
+      - MYSQL_ROOT_HOST=%   
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    networks:
+      - devops
+    healthcheck:
+      test: ["CMD", "mysql", "-h", "localhost", "-u", "devops", "-pdevops", "-e", "SELECT 1"]
+      interval: 30s    # Verifica a cada 30 segundos
+      timeout: 10s     # Tempo limite para a verificação
+      retries: 5       # Tenta 5 vezes antes de considerar que o serviço está inativo
+
 networks:
   devops:
     external: true
 
 volumes:
   mysql-data:
-  data:
