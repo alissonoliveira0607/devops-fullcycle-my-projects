@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  # app:
+  #   build: 
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: app
+  #   ports:
+  #     - 3000:3000
+  #   volumes: 
+  #     - ./data:/app
+  #   networks:
+  #     - devops
+
+
+  db:
+   image: mysql:latest
+   command: --innodb-use-native-aio=0
+   environment:
+     # Configuração das variáveis de ambiente do MySQL
+    - MYSQL_ROOT_PASSWORD=devops
+    - MYSQL_DATABASE=devops
+    - MYSQL_USER=devops
+    - MYSQL_PASSWORD=devops
+    - MYSQL_ROOT_HOST=%   # Permite conexões remotas ao MySQL
+    - MYSQL_SSL_CA=""
+    - MYSQL_SSL_CERT=""
+    - MYSQL_SSL_KEY=""
+   ports:
+     - 3306:3306
+   volumes:
+     - ./mysql-data:/var/lib/mysql
+   networks:
+     - devops
+  
+networks:
+  devops:
+    external: true
+
+volumes:
+  mysql-data:
