@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  laravel:
+    build:
+      context: .
+      dockerfile: ./laravel/Dockerfile.prod
+    container_name: laravel
+    # volumes:
+    #   - .:/var/www
+    ports:
+      - "9000:9000" # PHP-FPM porta
+    networks:
+      - devops
+    # environment:
+    #   - APP_ENV=local
+    #   - APP_DEBUG=true
+    #   - APP_KEY=base64:randomGeneratedKeyHere
+
+  nginx:
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile.prod
+    container_name: nginx
+    #volumes:
+      #- .:/var/www
+       #./nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
+    ports:
+      - "8000:80" # Nginx porta
+    networks:
+      - devops
+    depends_on:
+      - laravel
+
+networks:
+  devops:
+    external: true
+
+      
