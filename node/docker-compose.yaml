@@ -1,17 +1,17 @@
 version: '3'
 
 services:
-  # app:
-  #   build: 
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   container_name: app
-  #   ports:
-  #     - 3000:3000
-  #   volumes: 
-  #     - ./data:/app
-  #   networks:
-  #     - devops
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: app
+    ports:
+      - 3000:3000
+    volumes: 
+      - ./data:/app
+    networks:
+      - devops
 
 
   db:
