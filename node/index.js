@@ -10,7 +10,7 @@ const config = {
 const mysql = require('mysql')
 const connection = mysql.createConnection(config)
 
-const sql = `INSERT INTO people(name) values('Wesley')`
+const sql = `INSERT INTO people(name) values('Devops')`
 connection.query(sql)
 connection.end()
 

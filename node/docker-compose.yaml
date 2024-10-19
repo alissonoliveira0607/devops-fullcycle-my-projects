@@ -4,12 +4,12 @@ services:
   app:
     build: 
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     container_name: app
     ports:
       - 3001:3001
     volumes: 
-      - ./data:/app
+      - ./data:/usr/src/app
     networks:
       - devops
 
