@@ -17,6 +17,7 @@ services:
   db:
    image: mysql:latest
    command: --innodb-use-native-aio=0
+   container_name: db
    environment:
      # Configuração das variáveis de ambiente do MySQL
     - MYSQL_ROOT_PASSWORD=devops
