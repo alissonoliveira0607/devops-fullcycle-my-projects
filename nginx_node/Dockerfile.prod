@@ -2,15 +2,10 @@ FROM node:15-buster AS builder
 
 WORKDIR /usr/src/app
 
-#COPY package*.json ./
+COPY ./src/package.json . 
+RUN npm install --save
 
-RUN npm install mysql mysql2 express --save
-
-COPY index.js .
-
-EXPOSE 3000
-
-#CMD ["node", "index.js"]
+COPY ./src .
 
 FROM node:15.6.0-alpine
 
