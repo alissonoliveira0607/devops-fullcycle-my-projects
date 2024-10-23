@@ -87,7 +87,7 @@ app.get('/', async (req, res) => {
         if (error) {
             return res.status(500).send('Erro ao acessar o banco de dados');
         }
-        res.send(`<h1>Full Cycle Rocks!</h1><ul>${results.map(person => `<li>${person.name}</li>`).join('')}</ul>`);
+        res.send(`<h1>Full Cycle Rocks!!!</h1><ul>${results.map(person => `<li>${person.name}</li>`).join('')}</ul>`);
         connection.end(); // fecha a conexão após a consulta
     });
 });
